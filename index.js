@@ -1,3 +1,3 @@
-const canvas =document.querySelector ('canvas')
+const canvas = document.querySelector ('canvas')
 
 console.log(canvas)
