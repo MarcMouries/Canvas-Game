@@ -1,4 +1,4 @@
-const canvas = document.querySelector ('canvas')
+const canvas = document.querySelector('canvas')
 
 const ctx = canvas.getContext('2d')
 
@@ -36,24 +36,50 @@ class Projectile {
         ctx.fillStyle = this.color;
         ctx.fill();
     }
+
+    update() {
+        this.draw();
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+    }
 }
 
 
 
-const x = canvas.width / 2
-const y = canvas.height / 2
+const cx = canvas.width / 2
+const cy = canvas.height / 2
 
-const player = new Player(x, y, 30, 'blue');
-player.draw();
+const player = new Player(cx, cy, 30, 'blue');
 
+const projectiles = []
 
+function animate() {
+    requestAnimationFrame(animate)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    player.draw();
+    projectiles.forEach(projectile => {
+        projectile.update()
+    });
+}
 
-addEventListener('click', (event)=> {
-
-    const projectile = new Projectile(
-        event.clientX, event.clientY, 5, 
-        'red', null)
-
-        projectile.draw()
-
+addEventListener('click', (event) => 
+    {
+        const angle = Math.atan2(
+            event.clientY - cy, 
+            event.clientX - cx
+        )
+        const velocity = {
+            x: Math.cos(angle),
+            y: Math.sin(angle),
+        }
+        projectiles.push(
+        new Projectile(
+            cx,
+            cy,
+            5,
+            'red',
+            velocity
+        ))
 })
+
+animate()
