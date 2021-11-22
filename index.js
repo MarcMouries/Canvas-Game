@@ -44,7 +44,29 @@ class Projectile {
     }
 }
 
+class Enemy {
+    constructor(x, y, radius, color, velocity) {
 
+        this.x = x
+        this.y = y
+        this.radius = radius
+        this.color = color
+        this.velocity = velocity
+
+    }
+    draw() {
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+
+    update() {
+        this.draw();
+        this.x = this.x + this.velocity.x
+        this.y = this.y + this.velocity.y
+    }
+}
 
 const cx = canvas.width / 2
 const cy = canvas.height / 2
@@ -52,6 +74,21 @@ const cy = canvas.height / 2
 const player = new Player(cx, cy, 30, 'blue');
 
 const projectiles = []
+const enemies = []
+
+function spawnEnemies() {
+    setInterval(() => {
+        const x = 100
+        const y = 100
+        const radius = 30
+        const color = 'green'
+        const velocity = {
+            x: 1,
+            y: 1
+        }
+        enemies.push(new Enemy(x, y, radius, color, velocity))
+    }, 1000) 
+}
 
 function animate() {
     requestAnimationFrame(animate)
@@ -59,7 +96,12 @@ function animate() {
     player.draw();
     projectiles.forEach(projectile => {
         projectile.update()
-    });
+    })
+
+    enemies.forEach((Enemy) => {
+        Enemy.update()
+    })
+
 }
 
 addEventListener('click', (event) => 
@@ -83,3 +125,4 @@ addEventListener('click', (event) =>
 })
 
 animate()
+spawnEnemies()
