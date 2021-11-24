@@ -78,13 +78,23 @@ const enemies = []
 
 function spawnEnemies() {
     setInterval(() => {
-        const x = Math.random() * canvas.width
-        const y = Math.random() * canvas.height
+        const radius = Math.random() * (30 - 10) + 10
+
+        let x
+        let y
+
+        if (Math.random() < 0.5) {
+            x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius
+            y = Math.random() * canvas.height
+        } else {
+            x = Math.random() * canvas.width
+            y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius
+        }
+
         const color = 'green'
-        
-        
+
         const angle = Math.atan2(
-            cy - y, 
+            cy - y,
             cx - x
         )
         const velocity = {
@@ -92,7 +102,7 @@ function spawnEnemies() {
             y: Math.sin(angle),
         }
         enemies.push(new Enemy(x, y, radius, color, velocity))
-    }, 1000) 
+    }, 1000)
 }
 
 function animate() {
@@ -103,22 +113,34 @@ function animate() {
         projectile.update()
     })
 
-    enemies.forEach((Enemy) => {
+    enemies.forEach((Enemy, index) => {
         Enemy.update()
+
+        projectiles.forEach((projectile, projectileIndex) => {
+            const dist = Math.hypot(projectile.x - Enemy.x, projectile.y - Enemy.y)
+
+            if (dist - Enemy.radius - projectile.radius < 1) {
+                setTimeout(() => {
+                    enemies.splice(index, 1)
+                    projectiles.splice(projectileIndex, 1)
+                }, 0)
+
+
+            }
+        });
     })
 }
 
-addEventListener('click', (event) => 
-    {
-        const angle = Math.atan2(
-            event.clientY - cy, 
-            event.clientX - cx
-        )
-        const velocity = {
-            x: Math.cos(angle),
-            y: Math.sin(angle),
-        }
-        projectiles.push(
+addEventListener('click', (event) => {
+    const angle = Math.atan2(
+        event.clientY - cy,
+        event.clientX - cx
+    )
+    const velocity = {
+        x: Math.cos(angle),
+        y: Math.sin(angle),
+    }
+    projectiles.push(
         new Projectile(
             cx,
             cy,
