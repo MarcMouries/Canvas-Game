@@ -125,7 +125,6 @@ function animate() {
                     projectiles.splice(projectileIndex, 1)
                 }, 0)
 
-
             }
         });
     })
