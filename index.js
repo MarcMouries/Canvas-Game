@@ -80,7 +80,6 @@ function spawnEnemies() {
     setInterval(() => {
         const x = Math.random() * canvas.width
         const y = Math.random() * canvas.height
-        const radius = 30
         const color = 'green'
         
         
@@ -107,7 +106,6 @@ function animate() {
     enemies.forEach((Enemy) => {
         Enemy.update()
     })
-
 }
 
 addEventListener('click', (event) => 
