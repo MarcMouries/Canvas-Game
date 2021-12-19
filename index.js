@@ -20,84 +20,6 @@ class Player {
     }
 }
 
-class Projectile {
-    constructor(x, y, radius, color, velocity) {
-
-        this.x = x
-        this.y = y
-        this.radius = radius
-        this.color = color
-        this.velocity = velocity
-
-    }
-    draw() {
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-
-    update() {
-        this.draw();
-        this.x = this.x + this.velocity.x
-        this.y = this.y + this.velocity.y
-    }
-}
-
-class Enemy {
-    constructor(x, y, radius, color, velocity) {
-
-        this.x = x
-        this.y = y
-        this.radius = radius
-        this.color = color
-        this.velocity = velocity
-
-    }
-    draw() {
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-
-    update() {
-        this.draw();
-        this.x = this.x + this.velocity.x
-        this.y = this.y + this.velocity.y
-    }
-}
-
-
-class Particle {
-    constructor(x, y, radius, color, velocity) {
-
-        this.x = x
-        this.y = y
-        this.radius = radius
-        this.color = color
-        this.velocity = velocity
-        this.alpha = 1
-    }
-    draw() {
-        ctx.save()
-        ctx.globalAlpha = this.alpha
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.restore()
-    }
-
-    update() {
-        this.draw();
-        this.x = this.x + this.velocity.x
-        this.y = this.y + this.velocity.y
-        this.alpha -= 0.01
-    }
-}
-
-
 const cx = canvas.width / 2
 const cy = canvas.height / 2
 
@@ -177,9 +99,9 @@ function animate() {
 
             if (dist - Enemy.radius - projectile.radius < 1) {
 
-                for (let i = 0; i < 8; i++) {
+                for (let i = 0; i < Enemy.radius * 2; i++) {
                     particles.push(
-                        new Particle(projectile.x, projectile.y, 3, Enemy.color, {
+                        new Particle(projectile.x, projectile.y, Math.random() * 2, Enemy.color, {
                             x: Math.random() - 0.5,
                             y: Math.random() - 0.5
                         }))
