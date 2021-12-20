@@ -101,10 +101,15 @@ function animate() {
 
                 for (let i = 0; i < Enemy.radius * 2; i++) {
                     particles.push(
-                        new Particle(projectile.x, projectile.y, Math.random() * 2, Enemy.color, {
-                            x: Math.random() - 0.5,
-                            y: Math.random() - 0.5
-                        }))
+                        new Particle(
+                            projectile.x,
+                            projectile.y,
+                            Math.random() * 2,
+                            Enemy.color,
+                            {
+                                x: (Math.random() - 0.5) * (Math.random() * 6),
+                                y: (Math.random() - 0.5) * (Math.random() * 6)
+                            }))
                 }
 
                 if (Enemy.radius - 10 > 5) {
